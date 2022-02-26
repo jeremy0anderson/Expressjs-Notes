@@ -29,7 +29,7 @@ function createNewNote(body, notesArray) {
 }
 
 app.get('/', (req, res) =>{
-      res.sendFile(`${__dirname}/index.html`);
+      res.sendFile(`${__dirname}/public/assets/pages/index.html`);
 });
 app.route('/api/notes')
       .get((req, res) =>{
@@ -40,7 +40,7 @@ app.route('/api/notes')
       });
 
 app.get('/notes',(req, res)=>{
-      res.sendFile(`${__dirname}/public/notes.html`);
+      res.sendFile(`${__dirname}/public/assets/notes.html`);
 })
       
       app.post('/notes', (req, res) =>{
