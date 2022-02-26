@@ -1,38 +1,49 @@
 const express = require('express');
-const path = require('path');
 const app = express();
-const {fs} = require('fs-extra');
-const router = require('express').Router();
+const fs = require('fs');
 const {notes}= require('./db/db.json');
+const path = require("path");
 const port = process.env.PORT || 4000;
+app.use(express.Router());
 app.use(express.static('public'));
-function newNote(body, notesArray){
-      let note= body;
-      notesArray.push(note);
-      return fs.writeFileSync("./db/db.json",
-          JSON.stringify({notes: notesArray,}, null, 2));
+app.use(express.urlencoded({extended: false}));
+app.use(express.json({inflate: false}));
+
+function validateNote(note){
+      if (!note.title || typeof note.title !== 'string'){
+            return false;
+      }
+      if (!note.text || typeof note.text !== 'string'){
+            return false;
+      }
+      return true;
+}
+function createNewNote(body, notesArray) {
+      const newNote = body;
+      newNote.id = notesArray.length+1;
+      notesArray.push(newNote);
+      fs.writeFileSync(path.join(`${__dirname}`,'/db/db.json'),
+          JSON.stringify({ notes: notesArray }, null, 2)
+      );
+      return newNote;
 }
 
-app.route('/')
-    .get((req, res)=>{
-          res.send('./public/assets/index.html')
-    })
-
-
-
+app.get('/', (req, res) =>{
+      res.sendFile(`${__dirname}/index.html`);
+});
 app.route('/api/notes')
       .get((req, res) =>{
             res.send(notes)
       })
       .post((req, res) =>{
-            res.send(newNote(req.body, notes));
+            res.send(createNewNote(req.body, notes));
       });
 
-app.route('/notes')
-      .get((req, res)=>{
-            res.render('./public/assets/notes.html');
-      })
-      .post((req, res) =>{
+app.get('/notes',(req, res)=>{
+      res.sendFile(`${__dirname}/public/notes.html`);
+})
+      
+      app.post('/notes', (req, res) =>{
       
       });
 
