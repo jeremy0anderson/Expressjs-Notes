@@ -5,7 +5,7 @@ const {fs} = require('fs-extra');
 const router = require('express').Router();
 const {notes}= require('./db/db.json');
 const port = process.env.PORT || 4000;
-
+app.use(express.static('public'));
 function newNote(body, notesArray){
       let note= body;
       notesArray.push(note);
