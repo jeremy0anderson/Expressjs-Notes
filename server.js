@@ -13,7 +13,10 @@ function newNote(body, notesArray){
           JSON.stringify({notes: notesArray,}, null, 2));
 }
 
-
+app.route('/')
+    .get((req, res)=>{
+          res.send('./public/assets/index.html')
+    })
 
 
 
@@ -27,7 +30,7 @@ app.route('/api/notes')
 
 app.route('/notes')
       .get((req, res)=>{
-      
+            res.sendFile('./public/assets/notes.html')
       })
       .post((req, res) =>{
       
