@@ -40,7 +40,7 @@ app.route('/api/notes')
       });
 
 app.get('/notes',(req, res)=>{
-      res.sendFile(`${__dirname}/public/assets/notes.html`);
+      res.sendFile(`${__dirname}/public/assets/pages/notes.html`);
 })
       
       app.post('/notes', (req, res) =>{
