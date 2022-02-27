@@ -5,9 +5,9 @@ const {notes}= require('./db/db.json');
 const path = require("path");
 const port = process.env.PORT || 4000;
 app.use(express.Router());
-app.use(express.static('public'));
+app.use(express.static(`${__dirname}/public`));
 app.use(express.urlencoded({extended: false}));
-app.use(express.json({inflate: false}));
+app.use(express.json());
 
 function validateNote(note){
       if (!note.title || typeof note.title !== 'string'){
