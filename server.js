@@ -31,11 +31,11 @@ function createNewNote(body, notesArray) {
 
 /////////////[routes]//////////////
 app.get('/', (req, res) =>{
-      res.sendFile(`${__dirname}/public/assets/pages/index.html`);
+      res.sendFile(`${path.join(__dirname, '/public/index.html')}`);
 });
 app.route('/notes')
       .get((req, res) =>{
-            res.sendFile(`${path.join(__dirname, '/public/assets/pages/notes.html')}`);
+            res.sendFile(`${path.join(__dirname, '/public.notes.html')}`);
       })
       .post((req, res) =>{
       });
