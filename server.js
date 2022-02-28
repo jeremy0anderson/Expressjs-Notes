@@ -4,19 +4,20 @@ const fs = require('fs');
 const {notes}= require('./db/db.json');
 const path = require("path");
 const port = process.env.PORT || 4000;
+
+//////////[middleware]//////////////
 app.use(express.Router());
 app.use(express.static(`${__dirname}/public`));
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 
+
+////////////[functions]/////////////
 function validateNote(note){
       if (!note.title || typeof note.title !== 'string'){
             return false;
       }
-      if (!note.text || typeof note.text !== 'string'){
-            return false;
-      }
-      return true;
+      return !(!note.text || typeof note.text !== 'string');
 }
 function createNewNote(body, notesArray) {
       const newNote = body;
@@ -28,25 +29,33 @@ function createNewNote(body, notesArray) {
       return newNote;
 }
 
+/////////////[routes]//////////////
 app.get('/', (req, res) =>{
       res.sendFile(`${__dirname}/public/assets/pages/index.html`);
 });
-app.route('/api/notes')
+app.route('/notes')
       .get((req, res) =>{
             res.send(notes)
       })
       .post((req, res) =>{
-            res.send(createNewNote(req.body, notes));
+            res.sendFile(`${__dirname}/public/assets/pages/notes.html`);
       });
 
-app.get('/notes',(req, res)=>{
-      res.sendFile(`${__dirname}/public/assets/pages/notes.html`);
+app.route("/api/notes")
+    .get((req, res)=>{
+    
 })
-      
-      app.post('/notes', (req, res) =>{
-      
+    .post((req, res) =>{
+      const note = req.body;
+      if(validateNote(note)){
+            const newNote = createNewNote(note, notes);
+            console.log(newNote)
+            return res.json(newNote);
+      } else {return (err) =>{
+            console.log(err);
+            }}
       });
 
 app.listen(port, () =>{
        console.log("Listening on port "+port);
-})
+});
