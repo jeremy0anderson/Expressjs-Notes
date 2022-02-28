@@ -35,14 +35,14 @@ app.get('/', (req, res) =>{
 });
 app.route('/notes')
       .get((req, res) =>{
-            res.send(notes)
+            res.sendFile(`${__dirname}/public/assets/pages/notes.html`)
       })
       .post((req, res) =>{
-            res.sendFile(`${__dirname}/public/assets/pages/notes.html`);
       });
 
 app.route("/api/notes")
     .get((req, res)=>{
+          res.send(notes);
     
 })
     .post((req, res) =>{
