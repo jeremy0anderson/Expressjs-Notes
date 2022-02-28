@@ -35,7 +35,9 @@ app.get('/', (req, res) =>{
 });
 app.route('/notes')
       .get((req, res) =>{
-            res.sendFile(`${__dirname}/public/assets/pages/notes.html`)
+            res.sendFile(`${function(){
+                  path.join(__dirname, '/public/assets/pages/notes.html')
+            }}`);
       })
       .post((req, res) =>{
       });
